@@ -3,6 +3,8 @@
 	--secondary-color: #0ae4eb;
 	--black-color: #000710;
 	--box-shadow: 0px 0px 10px 3px rgb(10 228 235 / 30%);
+	--completed-todo: #3c5760;
+	--popup: #000710d1;
 }
 
 * {
@@ -114,7 +116,31 @@ body {
 					text-decoration: line-through;
 					color: var(--secondary-color);
 				}
+
+				.completed {
+					color: var(--completed-todo);
+					text-decoration: line-through;
+				}
 			}
 		}
+	}
+
+	.popup {
+		position: absolute;
+		bottom: 2%;
+		// display: flex;
+		display: none;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 80%;
+		height: 200px;
+		gap: 15px;
+		border-radius: 1rem;
+		background-color: var(--popup);
+	}
+
+	.open-popup {
+		display: flex;
 	}
 }

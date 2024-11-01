@@ -26,14 +26,62 @@ var Autobind_1 = require("./decorators/Autobind");
 var TodoList = (function () {
     function TodoList() {
         this.allTodoUl = document.querySelector('.all-todos');
+        this.Popup = document.querySelector('.popup');
     }
     TodoList.prototype.createNewTodo = function (todo) {
         var newElLi = document.createElement('li');
         newElLi.classList.add('todo-item');
         newElLi.setAttribute('id', todo.id);
-        newElLi.innerHTML = "<span class=\"todo\">".concat(todo.value, "</span>\n                    <button class=\"todo-icon completeBtn\"><i class=\"fa-solid fa-check\"></i></button>\n                    <button class=\"todo-icon editBtn\"><i class=\"fa-solid fa-pen\"></i></button>\n                    <button class=\"todo-icon deleteBtn\"><i class=\"fa-solid fa-trash\"></i></button>");
+        newElLi.innerHTML = "<p class=\"todo\">".concat(todo.value, "</p>\n                    <button class=\"todo-icon completeBtn\"><i class=\"fa-solid fa-check\"></i></button>\n                    <button class=\"todo-icon editBtn\"><i class=\"fa-solid fa-pen\"></i></button>\n                    <button class=\"todo-icon deleteBtn\"><i class=\"fa-solid fa-trash\"></i></button>");
         this.allTodoUl.append(newElLi);
+        this.showEditTodo(todo.id);
+        this.completeTodo(todo.id);
         this.deleteTodoFn(todo.id);
+    };
+    TodoList.prototype.editTodo = function (todoId) {
+        var _this = this;
+        var editBtn = document.querySelector('.popup-btn');
+        editBtn === null || editBtn === void 0 ? void 0 : editBtn.addEventListener('click', function () {
+            var popupInput = document.querySelector('.popup-input');
+            var editTodoLi = document.getElementById(todoId);
+            if (editTodoLi) {
+                var todoText = editTodoLi.querySelector('.todo');
+                if (todoText) {
+                    if (popupInput.value !== '') {
+                        todoText.innerHTML = popupInput.value;
+                    }
+                    else {
+                        alert('please text something');
+                    }
+                }
+            }
+            _this.Popup.classList.remove('open-popup');
+            popupInput.value = '';
+        }, { once: true });
+    };
+    TodoList.prototype.showEditTodo = function (todoId) {
+        var _this = this;
+        var editTodoLi = document.getElementById(todoId);
+        if (editTodoLi) {
+            var editTodoBtn = editTodoLi.querySelector('.editBtn');
+            editTodoBtn === null || editTodoBtn === void 0 ? void 0 : editTodoBtn.addEventListener('click', function () {
+                var todoText = editTodoLi.querySelector('.todo').innerHTML;
+                var popupInput = document.querySelector('.popup-input');
+                popupInput.value = todoText;
+                _this.Popup.classList.add('open-popup');
+                _this.editTodo(todoId);
+            });
+        }
+    };
+    TodoList.prototype.completeTodo = function (todoId) {
+        var completeTodoLi = document.getElementById(todoId);
+        if (completeTodoLi) {
+            var completeTodoBtn = completeTodoLi.querySelector('.completeBtn');
+            var todoText_1 = completeTodoLi.querySelector('.todo');
+            completeTodoBtn === null || completeTodoBtn === void 0 ? void 0 : completeTodoBtn.addEventListener('click', function () {
+                todoText_1 === null || todoText_1 === void 0 ? void 0 : todoText_1.classList.toggle('completed');
+            });
+        }
     };
     TodoList.prototype.deleteTodoFn = function (todoId) {
         var deleteLi = document.getElementById(todoId);
